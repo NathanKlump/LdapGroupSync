@@ -1,0 +1,13 @@
+stages:
+  - build
+
+dev_build_box:
+  stage: build
+  tags:
+    - dev_bb
+  script:
+    - ./gradlew -Plocal build
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml

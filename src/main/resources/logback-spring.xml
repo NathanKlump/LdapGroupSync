@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property resource="application.properties" />
+
+    <appender name="APPLICATION" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- keep 30 days' worth of history capped at 3GB total size -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE}Access.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}Access.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- keep 30 days' worth of history capped at 3GB total size -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%cyan(%d{ISO8601}) [%highlight(%level)] -- %yellow(%C{1.}):\n\t%msg%n%throwable</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="access" level="INFO" additivity="false">
+        <appender-ref ref="ACCESS" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="APPLICATION" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
